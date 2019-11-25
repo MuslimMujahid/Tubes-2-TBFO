@@ -146,7 +146,7 @@ def langkahKedua(terminals, variables, initial, rules):
             break
     for aturan in rules:
         if semuaVariablesAdaDiVx(aturan, variables, V2):
-            if semuaTerminalAdaDiVx(aturan, terminals, T2):
+            if semuaTerminalsAdaDiVx(aturan, terminals, T2):
                 P2.add(aturan)
     return (T2, V2, initial, P2)
 
