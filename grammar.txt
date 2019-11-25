@@ -16,12 +16,12 @@ RETURN -> return
 TRUE -> true
 FALSE -> false
 PASS -> pass
-OPENBRACKET -> (
-CLOSEBRACKET -> )
-SQUAREOPEN -> [
-SQUARECLOSE -> ]
-COMMA -> ,
-PERIOD -> .
+KURUNGBUKA -> (
+KURUNGTUTUP -> )
+BUKABRACKET -> [
+TUTUPBRACKET -> ]
+KOMA -> ,
+TITIK -> .
 COLON -> :
 
 EQUAL -> =
