@@ -83,6 +83,75 @@ def replaceNullVar(rule, NullVar):
                     result.append((left, NewRight))
     return result
 
+# REMOVE USELESS SYMBOLS
+def isGenerateTerminalOrV1Element(aturan, terminals, V1):
+    # Algoritme
+    for simbol in aturan[1]:
+        if (simbol in terminals or simbol in V1):
+            return True
+    return False
+
+def semuaVariablesAdaDiVx(aturan, variables, Vx):
+    # Algoritme
+    if aturan[0] not in Vx:
+        return False
+    for simbol in aturan[1]:
+        if simbol in variables and simbol not in Vx:
+            return False
+    return True
+
+def semuaTerminalsAdaDiVx(aturan, terminals, Tx):
+    # Algoritme
+    for simbol in aturan[1]:
+        if simbol in terminals and simbol not in Tx:
+            return False
+    return True
+
+def langkahPertama(terminals, variables, initial, rules):
+    # Inisialisasi
+    V1 = set()
+    P1 = set()
+
+    # Algoritme
+    while True:
+        oldLenV1 = len(V1)
+        for aturan in rules:
+            if isGenerateTerminalOrV1Element(aturan, terminals, V1):
+                V1.add(aturan[0])
+        if not (len(V1) > oldLenV1):
+            break
+    for aturan in rules:
+        if semuaVariablesAdaDiVx(aturan, variables, V1):
+            P1.add(aturan)
+    return langkahKedua(terminals, V1, initial, P1)
+
+def langkahKedua(terminals, variables, initial, rules):
+    # Inisialisasi
+    T2 = set()
+    V2 = initial.copy()
+    P2 = set()
+
+    # Algoritme
+    while True:
+        oldLenT2 = len(T2)
+        oldLenV2 = len(V2)
+        for aturan in rules:
+            if aturan[0] in V2:
+                for simbol in aturan[1]:
+                    if simbol in variables:
+                        V2.add(simbol)
+                    elif simbol in terminals:
+                        T2.add(simbol)
+        if not (len(V2) > oldLenV2 and len(T2) > oldLenT2):
+            break
+    for aturan in rules:
+        if semuaVariablesAdaDiVx(aturan, variables, V2):
+            if semuaTerminalAdaDiVx(aturan, terminals, T2):
+                P2.add(aturan)
+    return (T2, V2, initial, P2)
+
+def menghapusUselesssimbols(terminals, variables, initial, rules):
+    return langkahPertama(terminals, variables, initial, rules)
 
 # replaceNullVar(("A",["a", "B", "a", "B", "B", "c", "B"]), "B")
 # replaceNullVar(("A",["a", "B", "c", "B", "d", "B", "f", "B", "g"]), "B")
