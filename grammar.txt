@@ -1,3 +1,50 @@
+#ekspresi dasar python
+IF -> if
+ELSE -> else
+ELIF -> elif
+FOR -> for
+WHILE -> while
+IN -> in
+AS -> as
+FROM -> from
+WORD -> word
+INPUT -> input
+PRINT -> print
+CLASS -> class
+BREAK -> break
+RETURN -> return
+TRUE -> true
+FALSE -> false
+PASS -> pass
+OPENBRACKET -> (
+CLOSEBRACKET -> )
+SQUAREOPEN -> [
+SQUARECLOSE -> ]
+COMMA -> ,
+PERIOD -> .
+COLON -> :
+
+EQUAL -> =
+LESS -> <
+GREATER -> >
+
+OPERATION -> LESS EQUAL | GREATER EQUAL | EQUAL EQUAL | < | > |
+ARITH_OPERATION -> ATH_OPR -> * | / | % | + | - 
+LOGIC_OPERATION -> or | and
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def kotak(k): 
 	if 
 	for 
@@ -14,7 +61,18 @@ DEF -> def;
 BLANK ->  ;
 OPENBRACKET -> (;
 CLOSEBRACKET -> );
+CODE -> SEMUABENTUK; #BINGUNG
 ENTER -> 
 ;
-CODE -> SEMUABENTUK; #BINGUNG
+
+
+
+
+
+
+
+
+
+
+
 
