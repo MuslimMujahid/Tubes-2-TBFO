@@ -13,7 +13,6 @@ def cleanAlphabet(expression):
 def cleanProduction(expression):
     result = []
     rawRules = expression.replace("\n", "").split(";")[:-1]
-    # print(rawRules)
     for rule in rawRules:
         leftside = rule.split(" -> ")[0]
         rightTerms = rule.split(" -> ")[1].split(" | ")
@@ -29,12 +28,11 @@ def REMOVE_NULL_PRODUCTIONS(productions, variables):
     NullVariables = []
     for rule in productions:
         left, right = rule
-        if isRuleNull(rule):
+        if isNullProduct(rule):
             NullVariables.append(left)
             productions.remove(rule)
 
     for NullVariable in NullVariables:
-        # NullVariablesRemoved = [].copy()
         NullVariablesRemoved = []
         for rule in productions:
             left, right = rule
@@ -60,7 +58,7 @@ def getNullVarIndex(rule, NullVar):
             break
     return indexPosList
 
-def isRuleNull(rule):
+def isNullProduct(rule):
     left, right = rule
     return "e" in right
 
@@ -83,11 +81,65 @@ def replaceNullVar(rule, NullVar):
                     result.append((left, NewRight))
     return result
 
+def isUnitProduct(rule, variables):
+    left, right = rule
+    return len(right) == 1 and right[0] in variables
+
+def isExistUnitProduct(productions, variables):
+    exist = False
+    for rule in productions:
+        if isUnitProduct(rule, variables):
+            exist = True
+            break
+    return exist
+
+def replaceUnitProduct(productions, rule):
+    left, right = rule
+    for ruleS in productions:
+        leftS, rightS = ruleS
+        if leftS == right[0]:
+            return [(left, rightS)]
+
+def isUnreachableRule(productions, variables, rule):
+    left, right = rule
+    while True:
+        for ruleS in productions:
+            leftS, rightS = ruleS
+            if left in rightS:
+                left = leftS
+                break
+        break
+        
+    return not (left == "S")
+
+
+def REMOVE_UNIT_PRODUCTIONS(productions, variables):
+
+    while isExistUnitProduct(productions, variables):
+        unitProductions = []
+        for rule in productions:            
+            if isUnitProduct(rule, variables):
+                unitProductions.append(rule)
+                productions.remove(rule)
+        for unitProduction in unitProductions:
+            productions += replaceUnitProduct(productions + unitProductions, unitProduction)
+
+    for rule in productions:
+        if isUnreachableRule(productions, variables, rule):
+            productions.remove(rule)
+
+    return sorted(productions, reverse=True)
+
 
 # replaceNullVar(("A",["a", "B", "a", "B", "B", "c", "B"]), "B")
 # replaceNullVar(("A",["a", "B", "c", "B", "d", "B", "f", "B", "g"]), "B")
 
-K, V, Productions = loadModel("model.txt")
-Productions = START(Productions, V)
-Productions = REMOVE_NULL_PRODUCTIONS(Productions, V)
-print(Productions)
+K, V, Productions = loadModel("model2.txt")
+# Productions = START(Productions, V)
+# Productions = REMOVE_NULL_PRODUCTIONS(Productions, V)
+# print(Productions)
+# for rule in Productions:
+#     if isUnitProduct(rule, V):
+#         print(rule)
+print(REMOVE_UNIT_PRODUCTIONS(Productions, V))
+# REMOVE_UNIT_PRODUCTIONS(Productions, V)

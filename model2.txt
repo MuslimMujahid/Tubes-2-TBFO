@@ -1,0 +1,11 @@
+Terminals:
+a b 
+Variables:
+S M N X Y Z
+Productions:
+S -> X Y;
+X -> a;
+Y -> Z | b;
+Z -> M;
+M -> N;
+N -> a;
