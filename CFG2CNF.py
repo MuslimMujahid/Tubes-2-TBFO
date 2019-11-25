@@ -1,4 +1,4 @@
-import math
+varContainer = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
 def loadModel(modelPath):
     file = open(modelPath).read()
@@ -42,7 +42,7 @@ def REMOVE_NULL_PRODUCTIONS(productions, variables):
             if rule not in productions:      
                 productions.append(rule)
 
-    return sorted(productions, reverse=True)
+    return productions
 
 def getNullVarIndex(rule, NullVar):
     indexPosList = []
@@ -83,7 +83,7 @@ def replaceNullVar(rule, NullVar):
 
 def isUnitProduct(rule, variables):
     left, right = rule
-    return len(right) == 1 and right[0] in variables
+    return len(right) == 1 and right[0] in variables and not (left == "S0")
 
 def isExistUnitProduct(productions, variables):
     exist = False
@@ -100,7 +100,7 @@ def replaceUnitProduct(productions, rule):
         if leftS == right[0]:
             return [(left, rightS)]
 
-def isUnreachableRule(productions, variables, rule):
+def isRuleUnreachable(productions, variables, rule):
     left, right = rule
     while True:
         for ruleS in productions:
@@ -109,8 +109,8 @@ def isUnreachableRule(productions, variables, rule):
                 left = leftS
                 break
         break
-        
-    return not (left == "S")
+
+    return left is not "S0"
 
 
 def REMOVE_UNIT_PRODUCTIONS(productions, variables):
@@ -124,22 +124,82 @@ def REMOVE_UNIT_PRODUCTIONS(productions, variables):
         for unitProduction in unitProductions:
             productions += replaceUnitProduct(productions + unitProductions, unitProduction)
 
-    for rule in productions:
-        if isUnreachableRule(productions, variables, rule):
+    CopyProductions = productions.copy()
+    for rule in CopyProductions:
+        if isRuleUnreachable(productions, variables, rule):
             productions.remove(rule)
 
-    return sorted(productions, reverse=True)
+    return productions
+
+def isVariablesMoreThan2(variables, rule):
+    left, right = rule
+    countVar = 0
+    for v in right:
+        if v in variables:
+            countVar += 1
+            if countVar > 2:
+                return True
+        else:
+            return False
+
+def replaceMoreThan2Var(variables, rule, Vars):
+    result = []
+    left, right = rule
+    while isVariablesMoreThan2(variables, rule):
+        result.append((Vars.pop(0),[right.pop(-1)]))
+
+    # print(result)
+    return Vars, result+[(left, right)]
 
 
-# replaceNullVar(("A",["a", "B", "a", "B", "B", "c", "B"]), "B")
-# replaceNullVar(("A",["a", "B", "c", "B", "d", "B", "f", "B", "g"]), "B")
+def REMOVE_MORE_THAN_2_VARIABLES_PRODUCTION(productions, variables, Vars):
+    CopyProductions = productions.copy()
+    for rule in CopyProductions:
+        if isVariablesMoreThan2(variables, rule):
+            productions.remove(rule)
+            Vars, newRules =  replaceMoreThan2Var(variables, rule, Vars)
+            productions += newRules
+    
+    return Vars, productions
 
-K, V, Productions = loadModel("model2.txt")
-# Productions = START(Productions, V)
-# Productions = REMOVE_NULL_PRODUCTIONS(Productions, V)
-# print(Productions)
-# for rule in Productions:
-#     if isUnitProduct(rule, V):
-#         print(rule)
-print(REMOVE_UNIT_PRODUCTIONS(Productions, V))
-# REMOVE_UNIT_PRODUCTIONS(Productions, V)
+def isTermProduction(variables, rule):
+    left, right = rule
+    return len(right) == 2 and right[0] not in variables and right[1] in variables
+
+def getNotUsedVariables(usedVariables, Vars):
+    for V in  usedVariables:
+        Vars.remove(V)
+    return Vars
+
+def replaceTermProduction(variables, rule, Vars):
+    result = []
+    left, right = rule
+    leftS = Vars.pop(0)
+    rightS = [right[0]]
+    result += [(leftS, rightS)]
+    right[0] = leftS
+    result += [(left, right)]
+
+    return Vars, result
+
+def REMOVE_TERM_PRODUCTION(productions, variables, Vars):
+    CopyProductions = productions.copy()
+    for rule in CopyProductions:
+        left, right = rule
+        if isTermProduction(variables, rule):
+            productions.remove(rule)
+            Vars, newRule = replaceTermProduction(variables, rule, Vars)
+            productions += newRule
+    return Vars, productions
+
+K, V, Productions = loadModel("model4.txt")
+varContainer = getNotUsedVariables(V, varContainer)
+
+Productions = START(Productions, V)
+Productions = REMOVE_NULL_PRODUCTIONS(Productions, V)
+# Productions = REMOVE_UNIT_PRODUCTIONS(Productions, V)
+# varContainer, Productions = REMOVE_MORE_THAN_2_VARIABLES_PRODUCTION(Productions, V, varContainer)
+# varContainer, Productions = REMOVE_TERM_PRODUCTION(Productions, V, varContainer) 
+
+for rule in Productions:
+    print(rule)

@@ -1,9 +1,9 @@
 Terminals:
 a b c 
 Variables:
-S A B C 
+S A B C
 Productions:
 S -> A B A C;
-A -> a A | e;
-B -> b B | e;
+A -> a A;
+B -> b B;
 C -> c;
