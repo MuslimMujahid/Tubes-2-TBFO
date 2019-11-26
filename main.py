@@ -15,7 +15,7 @@ def readSyntax(Terminals, languages):
 
 
 Terminals, CNF = CFG2CNF.CFG2CNF("model2.txt")
-languages = open("syntax.txt").read()
+languages = open("syntax.txt", encoding="utf8").read()
 languages = readSyntax(Terminals, languages)
 
 if ( CYK.CYK(CNF, 'S0', languages) ):
