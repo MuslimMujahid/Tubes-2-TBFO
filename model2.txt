@@ -1,11 +1,11 @@
 Terminals:
-UNKNOWN ENDL None True true while False false in range for import not from return : if . + - * / < > <= >= == and or = elif else ( ) [ ] ,
+UNKNOWN ENDL with as None True true def while False false in range for import not from return : if . + - * / < > <= >= == and or = elif else ( ) [ ] ,
 Variables:
-START for_body TRUE FALSE OPEN_BRAC CLOSE_BRAC DOT WHILE NONE while_stmt while_head while_body VALUE test_not ARRAY NOT loop_name call_func loop_value IN RANGE for_head for_stmt IMPORT FROM NAME NEWLINE if_body OPEN_BRACE CLOSE_BRACE elif_stmt if_head ELIF ELSE else_stmt return_thing import_stmt and_or from_name stmt if_stmt COLON return_stmt IF RETURN if_expr expr operation OP COMPARISON_OP ASSIGN AND OR comparison RETURN NUMBER assignment
+START for_body TRUE WITH AS with_stmt with_stmt with_body FALSE DEF def_stmt def_body OPEN_BRAC CLOSE_BRAC DOT WHILE NONE while_stmt while_head while_body VALUE test_not ARRAY NOT loop_name call_func loop_value IN RANGE for_head for_stmt IMPORT FROM NAME NEWLINE if_body OPEN_BRACE CLOSE_BRACE elif_stmt if_head ELIF ELSE else_stmt return_thing import_stmt and_or from_name stmt if_stmt COLON return_stmt IF RETURN if_expr expr operation OP COMPARISON_OP ASSIGN AND OR comparison RETURN NUMBER assignment
 Productions:
-START -> import_stmt | stmt;
-stmt -> if_stmt | if_stmt NEWLINE stmt | assignment | assignment NEWLINE stmt | for_stmt | for_stmt NEWLINE stmt | call_func | call_func NEWLINE stmt | NEWLINE;
-stmt -> while_stmt | while_stmt stmt | return_stmt;
+START -> stmt;
+stmt -> import_stmt | if_stmt | if_stmt NEWLINE stmt | assignment | assignment NEWLINE stmt | for_stmt | for_stmt NEWLINE stmt | call_func | call_func NEWLINE stmt | NEWLINE stmt;
+stmt -> while_stmt | while_stmt NEWLINE stmt | with_stmt | with_stmt NEWLINE stmt | return_stmt | def_stmt;
 if_stmt -> IF if_head if_body | IF if_head if_body elif_stmt | IF if_head if_body else_stmt | IF if_head if_body elif_stmt else_stmt;
 if_head -> expr COLON | OPEN_BRACE expr CLOSE_BRACE;
 if_body -> NEWLINE stmt;
@@ -23,16 +23,24 @@ return_thing -> VALUE | expr | comparison;
 import_stmt -> from_name IMPORT NAME | from_name IMPORT NAME NEWLINE import_stmt;
 from_name -> e | FROM NAME | FROM NAME from_name;
 for_stmt -> FOR for_head for_body;
-for_head -> NAME IN RANGE OPEN_BRACE VALUE CLOSE_BRACE COLON | loop_name IN ARRAY COLON;
+for_head -> NAME IN RANGE OPEN_BRACE loop_name CLOSE_BRACE COLON | VALUE IN VALUE COLON;
 for_body -> NEWLINE stmt;
 loop_name -> NAME | NAME COMMA loop_name;
 while_stmt -> WHILE while_head while_body;
 while_head -> expr COLON | OPEN_BRACE expr CLOSE_BRACE COLON;
 while_body -> NEWLINE stmt;
-VALUE -> TRUE | FALSE | NONE | loop_name | operation | call_func | OPEN_BRACE VALUE CLOSE_BRACE | NAME OPEN_BRAC VALUE CLOSE_BRAC | VALUE DOT NAME;
-call_func -> NAME OPEN_BRACE VALUE CLOSE_BRACE | NAME OPEN_BRACE CLOSE_BRACE;
+VALUE -> TRUE | FALSE | NONE | loop_name | operation | call_func | OPEN_BRACE VALUE CLOSE_BRACE | NAME OPEN_BRAC VALUE CLOSE_BRAC | ARRAY;
+call_func -> NAME OPEN_BRACE VALUE CLOSE_BRACE | NAME OPEN_BRACE CLOSE_BRACE | VALUE DOT call_func;
 loop_value -> VALUE | VALUE COMMA loop_name;
+def_stmt -> DEF NAME OPEN_BRACE loop_name CLOSE_BRACE COLON def_body | DEF NAME OPEN_BRACE CLOSE_BRACE COLON def_body; 
+def_body -> NEWLINE stmt; 
+with_stmt -> WITH with_head with_body;
+with_head -> VALUE AS VALUE COLON;
+with_body -> NEWLINE stmt;
 ARRAY -> VALUE | OPEN_BRAC loop_value CLOSE_BRAC;
+WITH -> with;
+AS -> as;
+DEF -> def;
 NONE -> None;
 WHILE -> while;
 NOT -> not;

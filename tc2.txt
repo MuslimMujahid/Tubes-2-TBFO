@@ -21,7 +21,7 @@ def extract_text_from_image ( ) :
             if ascii == PIPE_ASCII :
                 f_out . write ( 'I' )
             elif ascii in ACCEPTED_ASCII_LIST :
-                f_outy . write ( c )
+                f_outy. write ( c )
             else :
-                f_out . write ( ' ' )
+                f_out . write (' ')
     time_end = time . perf_counter ( )

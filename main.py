@@ -4,6 +4,7 @@ def readSyntax(Terminals, languages):
     syntax = languages
     syntax = syntax.replace("\t", "") 
     syntax = syntax.replace("\n", " ENDL ")
+    syntax = syntax.replace("' '", " UNKNOWN ")
     syntax = syntax.split(" ")
     for x in range (syntax.count('')):
         syntax.remove('')
