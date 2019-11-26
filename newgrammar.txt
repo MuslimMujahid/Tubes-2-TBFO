@@ -9,3 +9,38 @@ import_stmt -> IMPORT NAME from_name;
 from_name -> e | FROM NAME | FROM NAME from_name;
 IMPORT -> import;
 FROM -> from
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+FOR -> for;
+VAR -> variable;
+IN -> in;
+RANGE -> range;
+OPENBRACKET -> (;
+NUMBER -> number;
+KOMA -> ,;
+CLOSEBRACKET -> );
+
+for_stmnt -> FOR VAR IN RANGE OPEENBRACKET NUMBER KOMA CLOSEBRACKET SEMICOLON;
