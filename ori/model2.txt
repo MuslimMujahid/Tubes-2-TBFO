@@ -1,0 +1,8 @@
+Terminals:
+NAME import from
+Variables:
+START IMPORT FROM
+Productions:
+START -> IMPORT FROM
+IMPORT -> import
+FROM -> from
