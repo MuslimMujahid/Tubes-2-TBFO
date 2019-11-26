@@ -1,7 +1,7 @@
 Terminals:
-UNKNOWN ENDL with as None True true def while False false in range for import not from return : if . + - * / < > <= >= == and or = elif else ( ) [ ] ,
+UNKNOWN ENDL with as None continue break pass True true def while False false in range for import not from return : if . + - * / < > <= >= == and or = elif else ( ) [ ] , ' " { } -
 Variables:
-START for_body TRUE WITH AS with_stmt with_stmt with_body FALSE DEF def_stmt def_body OPEN_BRAC CLOSE_BRAC DOT WHILE NONE while_stmt while_head while_body VALUE test_not ARRAY NOT loop_name call_func loop_value IN RANGE for_head for_stmt IMPORT FROM NAME NEWLINE if_body OPEN_BRACE CLOSE_BRACE elif_stmt if_head ELIF ELSE else_stmt return_thing import_stmt and_or from_name stmt if_stmt COLON return_stmt IF RETURN if_expr expr operation OP COMPARISON_OP ASSIGN AND OR comparison RETURN NUMBER assignment
+START for_body OPEN_CURL CLOSE_CURL DASH TRUE QUOTE DOUBLE_QUOTE WITH CONTINUE BREAK PASS AS with_stmt with_stmt with_body FALSE DEF def_stmt def_body OPEN_BRAC CLOSE_BRAC DOT WHILE NONE while_stmt while_head while_body VALUE test_not ARRAY NOT loop_name call_func loop_value IN RANGE for_head for_stmt IMPORT FROM NAME NEWLINE if_body OPEN_BRACE CLOSE_BRACE elif_stmt if_head ELIF ELSE else_stmt return_thing import_stmt and_or from_name stmt if_stmt COLON return_stmt IF RETURN if_expr expr operation OP COMPARISON_OP ASSIGN AND OR comparison RETURN NUMBER assignment
 Productions:
 START -> stmt;
 stmt -> import_stmt | if_stmt | if_stmt NEWLINE stmt | assignment | assignment NEWLINE stmt | for_stmt | for_stmt NEWLINE stmt | call_func | call_func NEWLINE stmt | NEWLINE stmt;
@@ -18,7 +18,7 @@ assignment -> NAME ASSIGN expr | NAME ASSIGN VALUE;
 comparison -> VALUE COMPARISON_OP VALUE | NAME COMPARISON_OP VALUE and_or comparison;
 comparison -> VALUE test_not IN VALUE | NOT OPEN_BRACE comparison CLOSE_BRACE | OPEN_BRACE comparison CLOSE_BRACE;
 test_not -> e | NOT;
-return_stmt -> RETURN return_thing;
+return_stmt -> RETURN return_thing | CONTINUE | BREAK | PASS;
 return_thing -> VALUE | expr | comparison;
 import_stmt -> from_name IMPORT NAME | from_name IMPORT NAME NEWLINE import_stmt;
 from_name -> e | FROM NAME | FROM NAME from_name;
@@ -37,7 +37,7 @@ def_body -> NEWLINE stmt;
 with_stmt -> WITH with_head with_body;
 with_head -> VALUE AS VALUE COLON;
 with_body -> NEWLINE stmt;
-ARRAY -> VALUE | OPEN_BRAC loop_value CLOSE_BRAC;
+ARRAY -> VALUE | OPEN_BRAC loop_value CLOSE_BRAC | OPEN_BRAC CLOSE_BRAC | OPEN_CURL loop_value CLOSE_CURL | OPEN_CURL CLOSE_CURL;
 WITH -> with;
 AS -> as;
 DEF -> def;
@@ -69,4 +69,13 @@ CLOSE_BRACE -> );
 COMMA -> ,;
 TRUE -> True | true;
 FALSE -> False | false;
-DOT -> .
+DOT -> .;
+NAME -> QUOTE NAME QUOTE | DOUBLE_QUOTE NAME DOUBLE_QUOTE;
+CONTINUE -> continue;
+BREAK -> break;
+PASS -> pass;
+QUOTE -> ';
+DOUBLE_QUOTE -> ";
+OPEN_CURL -> {;
+CLOSE_CURL -> };
+DASH -> -

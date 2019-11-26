@@ -33,9 +33,7 @@ def CYK(Grammar, Start, Languages):
                                 kamus[i, j].append(left)
 
     if Start in kamus[0, len(Languages)-1]:
-        print ("T")
         return True
 
     else:
-        print ("F")
         return False

@@ -17,9 +17,8 @@ def readSyntax(Terminals, languages):
 Terminals, CNF = CFG2CNF.CFG2CNF("model2.txt")
 languages = open("syntax.txt").read()
 languages = readSyntax(Terminals, languages)
-# for x in CNF:
-#     print(x)
-for x in languages:
-    print(x)
-# print(languages)
-CYK.CYK(CNF, 'S0', languages)
+
+if ( CYK.CYK(CNF, 'S0', languages) ):
+    print("Compile success .... ")
+else :
+    print("Syntax error!")
