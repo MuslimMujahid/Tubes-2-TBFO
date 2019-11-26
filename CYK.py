@@ -1,5 +1,7 @@
 # CYK (Cocke-Younger-Kasami) Parser Algorithm Kelompok Cuankie
 
+import CFG2CNF
+
 # Membuat Fungsi CYK
 def CYK(Grammar, Start, Languages):
     kamus = {}
@@ -36,22 +38,3 @@ def CYK(Grammar, Start, Languages):
     else:
         print ("F")
         return False
-
-# Main (Grammar)
-# Grammar = ["S->AB", "S->BC", "A->AB", "A->a", "B->CC", "B->b", "C->AB", "C->a"]
-Grammar = [("S",["A", "B"]), ("S",["B", "C"]), ("A", ["A", "B"]), ("A", ["a"]), ("B",["C", "C"]), ("B",["b"]), ("C", ["A", "B"]), ("C", ["a"])]
-
-# Test Case Menggunakan String
-string1 = ["b"]
-string2 = ["a"]
-string3 = ["a", "b"]
-string4 = ["b", "a"]
-string5 = ["a", "b", "a"]
-
-# Output
-print ("Hasil dari CYK Parser:")
-CYK(Grammar, "S", string1)
-CYK(Grammar, "S", string2)
-CYK(Grammar, "S", string3)
-CYK(Grammar, "S", string4)
-CYK(Grammar, "S", string5)

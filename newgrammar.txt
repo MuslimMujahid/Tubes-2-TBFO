@@ -1,0 +1,11 @@
+Terminals:
+NAME import from
+Variables:
+START stmt import_stmt from_name FROM IMPORT FROM
+Productions:
+START -> e | stmt | stmt START;
+stmt -> import_stmt | import_stmt stmt | stmt;
+import_stmt -> IMPORT NAME from_name;
+from_name -> e | FROM NAME | FROM NAME from_name;
+IMPORT -> import;
+FROM -> from

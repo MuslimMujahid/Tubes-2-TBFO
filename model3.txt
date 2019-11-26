@@ -1,9 +1,0 @@
-Terminals:
-a b c 
-Variables:
-S A B C
-Productions:
-S -> A B A C;
-A -> a A;
-B -> b B;
-C -> c;

@@ -1,0 +1,414 @@
+B31 -> V1 CLOSE_PAREN | )
+I31 -> X1 Y1 | COMMA W1 | COMMA G31
+K32 -> X1 Y1 | COMMA W1 | COMMA G31
+Y1 -> COMMA Z1 | ,
+E31 -> tfpdef A2 | NAME
+H31 -> tfpdef A2 | NAME
+J31 -> tfpdef A2 | NAME
+N31 -> vfpdef A2 | NAME
+Q31 -> vfpdef A2 | NAME
+S31 -> vfpdef A2 | NAME
+C31 -> X1 B2 | COMMA W1 | COMMA G31
+D32 -> X1 B2 | COMMA W1 | COMMA G31
+B2 -> COMMA C2 | ,
+D31 -> D2 D32 | X1 B2 | COMMA W1 | COMMA G31
+L31 -> G2 L32 | H2 J2 | COMMA O31 | COMMA P31
+O31 -> vfpdef G2 | NAME
+P32 -> G2 H2 | COMMA O31 | COMMA P31
+M2 -> COMMA I2 | ,
+L32 -> H2 J2 | COMMA O31 | COMMA P31
+J2 -> COMMA K2 | ,
+M31 -> L2 M32 | H2 M2 | COMMA O31 | COMMA P31
+R31 -> L2 R32 | H2 M2 | COMMA O31 | COMMA P31
+M32 -> H2 M2 | COMMA O31 | COMMA P31
+R32 -> H2 M2 | COMMA O31 | COMMA P31
+D61 -> U CLOSE_PAREN | )
+E61 -> V CLOSE_BRACK | ]
+F61 -> W CLOSE_BRACE | }
+subscript -> G1 L61 | COLON L62 | or_test B51 | and_test D | LAMBDA C51 | LAMBDA D51
+L62 -> G1 H1 | COLON G1 | : | or_test B51 | and_test D | LAMBDA C51 | LAMBDA D51
+sliceop -> COLON G1 | :
+T62 -> A1 T63 | COLON suite
+H61 -> B1 CLOSE_PAREN | )
+U61 -> B1 CLOSE_PAREN | )
+comp_for -> D1 Y61 | FOR Y62
+Y64 -> or_test E1 | and_test D
+Z61 -> test_nocond I1 | and_test D | LAMBDA E51 | LAMBDA F51
+START -> single_input STARTsingle_input
+async_funcdef -> ASYNC funcdef
+funcdef -> DEF A31
+A31 -> encoding_decl A32
+A32 -> parameters A33
+A33 -> COLON suite
+parameters -> OPEN_PAREN B31
+typedargslist -> W1 C31 | STAR D31 | POWER E31
+W1 -> tfpdef F31 | NAME
+F31 -> ASSIGN test
+X1 -> COMMA W1 | COMMA G31
+G31 -> W1 X1
+Z1 -> POWER H31
+C2 -> STAR I31 | POWER J31 | STAR K31
+K31 -> tfpdef K32
+tfpdef -> NAME
+varargslist -> vfpdef L31 | STAR M31 | POWER N31
+G2 -> ASSIGN test
+H2 -> COMMA O31 | COMMA P31
+P31 -> vfpdef P32
+I2 -> POWER Q31
+K2 -> STAR R31 | POWER S31
+vfpdef -> NAME
+Z12 -> NEWLINE
+simple_stmt -> small_stmt T31 | small_stmt U31
+T31 -> M Z12
+U31 -> M U32
+U32 -> SEMI_COLON Z12
+M -> SEMI_COLON small_stmt | SEME_COLON V31
+V31 -> small_stmt M
+expr_stmt -> testlist_star_expr annassign | testlist_star_expr W31 | testlist_star_expr N
+W31 -> augassign P
+N -> ASSIGN O | ASSIGN X31
+X31 -> O N
+annassign -> COLON test | COLON Y31
+Y31 -> test Y32
+Y32 -> ASSIGN test
+testlist_star_expr -> R Q | R Z31
+Z31 -> Q COMMA
+Q -> COMMA R | COMMA A41
+A41 -> R Q
+del_stmt -> DEL exprlist
+import_name -> IMPORT dotted_as_names
+import_from -> FROM B41
+B41 -> L1 B42
+B42 -> IMPORT M1
+J1 -> K1 J1 | . | ...
+L1 -> J1 dotted_name | . | ...
+M1 -> OPEN_PAREN C41 | OPEN_PAREN N51 | * | COMMA import_as_name | COMMA import_as_name | * | COMMA import_as_name | COMMA import_as_name | NAME | encoding_decl D41 | NAME | encoding_decl O51 | NAME | encoding_decl D41 | NAME | encoding_decl O51 | NAME | encoding_decl D41 | NAME | encoding_decl O51 | NAME | encoding_decl D41 | NAME | encoding_decl O51
+C41 -> import_as_names CLOSE_PAREN
+import_as_name -> NAME | encoding_decl D41 | NAME | encoding_decl O51
+D41 -> AS encoding_decl
+dotted_as_name -> dotted_name E41 | dotted_name P51 | NAME | DOT encoding_decl | NAME | DOT encoding_decl | NAME | DOT encoding_decl | NAME | DOT encoding_decl
+E41 -> AS encoding_decl
+import_as_names -> COMMA import_as_name | COMMA import_as_name | NAME | encoding_decl D41 | NAME | encoding_decl O51 | NAME | encoding_decl D41 | NAME | encoding_decl O51
+dotted_as_names -> COMMA dotted_as_name | COMMA dotted_as_name | dotted_name E41 | dotted_name P51 | dotted_name E41 | dotted_name P51 | NAME | DOT encoding_decl | NAME | DOT encoding_decl | NAME | DOT encoding_decl | NAME | DOT encoding_decl | NAME | DOT encoding_decl | NAME | DOT encoding_decl | NAME | DOT encoding_decl | NAME | DOT encoding_decl
+dotted_name -> NAME | DOT encoding_decl | NAME | DOT encoding_decl
+global_stmt -> GLOBAL encoding_decl | GLOBAL F41 | GLOBAL encoding_decl | GLOBAL Q51
+F41 -> encoding_decl F42
+F42 -> COMMA encoding_decl
+nonlocal_stmt -> NONLOCAL G41 | NONLOCAL R51
+G41 -> encoding_decl G42
+G42 -> COMMA encoding_decl
+assert_stmt -> ASSERT test | ASSERT H41 | ASSERT test | ASSERT S51
+H41 -> test H42
+H42 -> COMMA test
+compound_stmt -> decorated | decorated | IF I41 | IF J41 | IF K41 | IF T51 | IF U51 | IF V51 | WHILE N41 | WHILE O41 | WHILE Y51 | FOR P41 | FOR Q41 | TRY R41 | TRY S41 | WITH W41 | DEF A31 | CLAS T61 | ASYNC funcdef | ASYNC with_stmt | ASYNC for_stmt | ASYNC funcdef | ASYNC with_stmt | ASYNC for_stmt | IF I41 | IF J41 | IF K41 | IF T51 | IF U51 | IF V51 | WHILE N41 | WHILE O41 | WHILE Y51 | FOR P41 | FOR Q41 | TRY R41 | TRY S41 | WITH W41 | DEF A31 | CLAS T61 | ASYNC funcdef | ASYNC with_stmt | ASYNC for_stmt | ASYNC funcdef | ASYNC with_stmt | ASYNC for_stmt
+async_stmt -> ASYNC funcdef | ASYNC with_stmt | ASYNC for_stmt | ASYNC funcdef | ASYNC with_stmt | ASYNC for_stmt
+if_stmt -> IF I41 | IF J41 | IF K41 | IF T51 | IF U51 | IF V51
+I41 -> test I42
+I42 -> COLON suite
+J41 -> test J42
+J42 -> COLON J43
+J43 -> suite A
+K41 -> test K42
+K42 -> COLON K43
+K43 -> suite K44
+K44 -> A K45
+K45 -> ELSE K46
+K46 -> COLON suite
+A -> ELIF L41 | ELIF M41 | ELIF W51 | ELIF X51
+L41 -> test L42
+L42 -> COLON suite
+M41 -> test M42
+M42 -> COLON M43
+M43 -> suite A
+while_stmt -> WHILE N41 | WHILE O41 | WHILE Y51
+N41 -> test N42
+N42 -> COLON suite
+O41 -> test O42
+O42 -> COLON O43
+O43 -> suite O44
+O44 -> ELSE O45
+O45 -> COLON suite
+for_stmt -> FOR P41 | FOR Q41
+P41 -> exprlist P42
+P42 -> IN P43
+P43 -> testlist P44
+P44 -> COLON suite
+Q41 -> exprlist Q42
+Q42 -> IN Q43
+Q43 -> testlist Q44
+Q44 -> COLON Q45
+Q45 -> suite Q46
+Q46 -> ELSE Q47
+Q47 -> COLON suite
+try_stmt -> TRY R41 | TRY S41
+R41 -> COLON R42
+R42 -> suite R43
+R43 -> except_clause R44
+R44 -> COLON R45
+R45 -> suite B
+S41 -> COLON S42
+S42 -> suite S43
+S43 -> FINALLY S44
+S44 -> COLON suite
+B -> ELSE T41 | FINALLY U41 | ELSE V41
+T41 -> COLON suite
+U41 -> COLON suite
+V41 -> COLON V42
+V42 -> suite V43
+V43 -> FINALLY V44
+V44 -> COLON suite
+with_stmt -> WITH W41
+W41 -> with_item W42
+W42 -> C W43
+W43 -> COLON suite
+C -> COMMA with_item | COMMA X41
+X41 -> with_item C
+with_item -> test Y41 | or_test B51 | and_test D | LAMBDA C51 | LAMBDA D51
+Y41 -> AS expr
+except_clause -> EXCEPT test | EXCEPT Z41 | except
+Z41 -> test Z42
+Z42 -> AS encoding_decl
+Y12 -> INDENT
+X12 -> DEDENT
+suite -> Z12 A51 | small_stmt T31 | small_stmt U31
+A51 -> Y12 A52
+A52 -> stmt X12
+test -> or_test B51 | and_test D | LAMBDA C51 | LAMBDA D51
+B51 -> IF B52
+B52 -> or_test B53
+B53 -> ELSE test
+lambdef -> LAMBDA C51 | LAMBDA D51
+C51 -> COLON test
+D51 -> varargslist D52
+D52 -> COLON test
+lambdef_nocond -> LAMBDA E51 | LAMBDA F51
+E51 -> COLON test_nocond
+F51 -> varargslist F52
+F52 -> COLON test_nocond
+or_test -> and_test D
+D -> OR and_test | OR G51
+G51 -> and_test D
+and_test -> not_test E
+E -> AND not_test | AND H51
+H51 -> not_test E
+not_test -> NOT encoding_decl | NOT I51 | NOT not_test | expr N2
+I51 -> encoding_decl not_test
+comparison -> expr N2
+N2 -> comp_op expr
+comp_op -> NOT IN | IS NOT | < | > | == | >= | <= | <> | != | in | is
+star_expr -> STAR expr
+expr -> xor_expr F
+F -> | xor_expr | | J51
+J51 -> xor_expr F
+xor_expr -> and_expr G
+G -> XOR and_expr | XOR K51
+K51 -> and_expr G
+and_expr -> shift_expr H
+H -> AND_OP shift_expr | AND_OP L51
+L51 -> shift_expr H
+shift_expr -> arith_expr E2
+E2 -> F2 arith_expr | F2 M51
+M51 -> arith_expr E2
+N51 -> import_as_names CLOSE_PAREN
+O51 -> AS encoding_decl
+P51 -> AS encoding_decl
+Q51 -> encoding_decl Q52
+Q52 -> COMMA encoding_decl
+R51 -> encoding_decl R52
+R52 -> COMMA encoding_decl
+S51 -> test S52
+S52 -> COMMA test
+T51 -> test T52
+T52 -> COLON suite
+U51 -> test U52
+U52 -> COLON U53
+U53 -> suite A
+V51 -> test V52
+V52 -> COLON V53
+V53 -> suite V54
+V54 -> A V55
+V55 -> ELSE V56
+V56 -> COLON suite
+W51 -> test W52
+W52 -> COLON suite
+X51 -> test X52
+X52 -> COLON X53
+X53 -> suite A
+Y51 -> test Y52
+Y52 -> COLON Y53
+Y53 -> suite |arith_expr
+I -> J term | J Z51
+Z51 -> term I
+term -> factor S
+S -> T factor | T A61
+A61 -> factor S
+K -> STAR factor | AT factor | DIV factor | MOD factor | IDIV factor
+factor -> ADD factor | MINUS factor | NOT_OP factor | atom_expr B61 | atom L | AWAIT C61
+power -> atom_expr B61 | atom L | AWAIT C61
+B61 -> POWER factor
+atom_expr -> atom L | AWAIT C61
+C61 -> atom L
+L -> trailer L | OPEN_PAREN H61 | OPEN_BRACK I61 | DOT encoding_decl
+atom -> OPEN_PAREN D61 | OPEN_BRACK E61 | OPEN_BRACE F61 | NAME | NUMBER | STRING | ... | None | True | False
+testlist_comp -> R U1
+T1 -> COMMA R | COMMA G61
+G61 -> R T1
+U1 -> Q1 COMMA | D1 Y61 | COMMA R | COMMA S61 | FOR Y62
+trailer -> OPEN_PAREN H61 | OPEN_BRACK I61 | DOT encoding_decl
+I61 -> subscriptlist CLOSE_BRACK
+subscriptlist -> subscript F1 | subscript J61
+J61 -> F1 COMMA
+F1 -> COMMA subscript | COMMA K61
+K61 -> subscript F1
+L61 -> COLON L62
+exprlist -> R X | R M61
+M61 -> X COMMA
+X -> COMMA Y
+testlist -> test Z | test N61
+N61 -> Z COMMA
+Z -> COMMA test | COMMA O61
+O61 -> test Z
+dictorsetmaker -> R S1 | N1 S1 | N1 S1
+N1 -> test P61 | POWER expr
+P61 -> COLON test
+O1 -> COMMA P1 | COMMA Q61
+Q61 -> P1 O1
+P1 -> test R61 | POWER expr
+R61 -> COLON test
+Q1 -> COMMA R | COMMA S61
+S61 -> R Q1
+R1 -> N1 S1 | N1 S1
+S1 -> O1 COMMA | D1 Y61 | COMMA P1 | COMMA Q61 | FOR Y62
+classdef -> CLAS T61
+T61 -> encoding_decl T62
+T63 -> COLON suite
+A1 -> OPEN_PAREN U61
+arglist -> argument C1 | argument V61
+V61 -> C1 COMMA
+C1 -> COMMA argument | COMMA W61
+W61 -> argument C1
+argument -> test comp_for | test X61 | POWER test | STAR test | or_test B51 | and_test D | LAMBDA C51 | LAMBDA D51
+X61 -> ASSIGN test
+Y61 -> FOR Y62
+Y62 -> exprlist Y63
+Y63 -> IN Y64
+comp_if -> IF Z61
+encoding_decl -> NAME
+yield_expr -> YIELD yield_arg | yield
+yield_arg -> FROM test | test Z | test N61
+DEF -> def
+RETURN -> return
+RAISE -> raise
+FROM -> from
+IMPORT -> import
+AS -> as
+GLOBAL -> global
+NONLOCAL -> nonlocal
+ASSERT -> assert
+IF -> if
+ELIF -> elif
+ELSE -> else
+WHILE -> while
+FOR -> for
+IN -> in
+TRY -> try
+FINALLY -> finally
+WITH -> with
+EXCEPT -> except
+LAMBDA -> lambda
+OR -> or
+AND -> and
+NOT -> not
+IS -> is
+NONE -> None
+TRUE -> True
+FALSE -> False
+CLASS -> class
+YIELD -> yield
+DEL -> del
+PASS -> pass
+CONTINUE -> continue
+BREAK -> break
+ASYNC -> async
+AWAIT -> await
+DOT -> .
+ELLIPSIS -> ...
+STAR -> *
+OPEN_PAREN -> (
+CLOSE_PAREN -> )
+COMMA -> ,
+COLON -> :
+POWER -> **
+ASSIGN -> =
+OPEN_BRACK -> [
+CLOSE_BRACK -> ]
+XOR -> ^
+AND_OP -> &
+LEFT_SHIFT -> <<
+RIGHT_SHIFT -> >>
+ADD -> +
+MINUS -> -
+DIV -> /
+MOD -> %
+IDIV -> //
+NOT_OP -> ~
+OPEN_BRACE -> {
+CLOSE_BRACE -> }
+LESS_THAN -> <
+GREATER_THAN -> >
+EQUALS -> ==
+GT_EQ -> >=
+LT_EQ -> <=
+NOT_EQ_1 -> <>
+NOT_EQ_2 -> !=
+AT -> @
+ARROW -> ->
+ADD_ASSIGN -> +=
+SUB_ASSIGN -> -=
+MULT_ASSIGN -> *=
+AT_ASSIGN -> @=
+DIV_ASSIGN -> /=
+MOD_ASSIGN -> %=
+AND_ASSIGN -> &=
+OR_ASSIGN -> |=
+XOR_ASSIGN -> ^=
+LEFT_SHIFT_ASSIGN -> <<=
+RIGHT_SHIFT_ASSIGN -> >>=
+POWER_ASSIGN -> **=
+IDIV_ASSIGN -> //=
+SEMI_COLON -> Temp
+S0 -> single_input STARTsingle_input
+V1 -> W1 C31 | STAR D31 | POWER E31
+A2 -> ,
+D2 -> NAME
+L2 -> NAME
+stmt -> small_stmt T31 | small_stmt U31 | decorated | decorated | IF I41 | IF J41 | IF K41 | IF T51 | IF U51 | IF V51 | WHILE N41 | WHILE O41 | WHILE Y51 | FOR P41 | FOR Q41 | TRY R41 | TRY S41 | WITH W41 | DEF A31 | CLAS T61 | ASYNC funcdef | ASYNC with_stmt | ASYNC for_stmt | ASYNC funcdef | ASYNC with_stmt | ASYNC for_stmt | IF I41 | IF J41 | IF K41 | IF T51 | IF U51 | IF V51 | WHILE N41 | WHILE O41 | WHILE Y51 | FOR P41 | FOR Q41 | TRY R41 | TRY S41 | WITH W41 | DEF A31 | CLAS T61 | ASYNC funcdef | ASYNC with_stmt | ASYNC for_stmt | ASYNC funcdef | ASYNC with_stmt | ASYNC for_stmt
+small_stmt -> testlist_star_expr annassign | testlist_star_expr W31 | testlist_star_expr N | DEL exprlist | GLOBAL encoding_decl | GLOBAL F41 | GLOBAL encoding_decl | GLOBAL Q51 | NONLOCAL G41 | NONLOCAL R51 | ASSERT test | ASSERT H41 | ASSERT test | ASSERT S51 | pass | break | continue | return | raise | YIELD yield_arg | IMPORT dotted_as_names | FROM B41 | yield
+P -> YIELD yield_arg | test Z | test N61 | yield
+O -> YIELD yield_arg | R Q | R Z31 | yield
+R -> or_test B51 | STAR expr | and_test D | LAMBDA C51 | LAMBDA D51
+augassign -> += | -= | *= | @= | /= | %= | &= | |= | **= | <<= | >>= | **= | //=
+pass_stmt -> pass
+break_stmt -> break
+continue_stmt -> continue
+return_stmt -> return
+yield_stmt -> YIELD yield_arg | yield
+raise_stmt -> raise
+import_stmt -> IMPORT dotted_as_names | FROM B41
+K1 -> . | ...
+test_nocond -> and_test D | LAMBDA E51 | LAMBDA F51
+F2 -> << | >>
+J -> + | -
+T -> * | @ | / | % | //
+U -> YIELD yield_arg | R U1 | yield
+V -> R U1
+W -> R S1 | N1 S1 | N1 S1
+G1 -> or_test B51 | and_test D | LAMBDA C51 | LAMBDA D51
+H1 -> COLON G1 | :
+Y -> xor_expr F | STAR expr
+B1 -> argument C1 | argument V61
+comp_iter -> D1 Y61 | IF Z61 | FOR Y62
+D1 -> async
+flow_stmt -> break | continue | return | raise | YIELD yield_arg | yield
+E1 -> D1 Y61 | FOR Y62 | IF Z61
+I1 -> D1 Y61 | FOR Y62 | IF Z61
