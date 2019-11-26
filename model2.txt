@@ -1,11 +1,11 @@
 Terminals:
-UNKNOWN ENDL None True true while False false in range for import not from return : if + - * / < > <= >= == and or = elif else ( ) [ ] ,
+UNKNOWN ENDL None True true while False false in range for import not from return : if . + - * / < > <= >= == and or = elif else ( ) [ ] ,
 Variables:
-START for_body TRUE FALSE WHILE NONE while_stmt while_head while_body VALUE test_not ARRAY NOT loop_name call_func loop_value IN RANGE for_head for_stmt IMPORT FROM NAME NEWLINE if_body OPEN_BRACE CLOSE_BRACE elif_stmt if_head ELIF ELSE else_stmt return_thing import_stmt and_or from_name stmt if_stmt COLON return_stmt IF RETURN if_expr expr operation OP COMPARISON_OP ASSIGN AND OR comparison RETURN NUMBER assignment
+START for_body TRUE FALSE OPEN_BRAC CLOSE_BRAC DOT WHILE NONE while_stmt while_head while_body VALUE test_not ARRAY NOT loop_name call_func loop_value IN RANGE for_head for_stmt IMPORT FROM NAME NEWLINE if_body OPEN_BRACE CLOSE_BRACE elif_stmt if_head ELIF ELSE else_stmt return_thing import_stmt and_or from_name stmt if_stmt COLON return_stmt IF RETURN if_expr expr operation OP COMPARISON_OP ASSIGN AND OR comparison RETURN NUMBER assignment
 Productions:
 START -> import_stmt | stmt;
-stmt -> if_stmt | if_stmt NEWLINE stmt | assignment | assignment NEWLINE stmt | for_stmt | for_stmt NEWLINE stmt | call_func | call_func NEWLINE stmt;
-stmt -> while_stmt | while_stmt stmt;
+stmt -> if_stmt | if_stmt NEWLINE stmt | assignment | assignment NEWLINE stmt | for_stmt | for_stmt NEWLINE stmt | call_func | call_func NEWLINE stmt | NEWLINE;
+stmt -> while_stmt | while_stmt stmt | return_stmt;
 if_stmt -> IF if_head if_body | IF if_head if_body elif_stmt | IF if_head if_body else_stmt | IF if_head if_body elif_stmt else_stmt;
 if_head -> expr COLON | OPEN_BRACE expr CLOSE_BRACE;
 if_body -> NEWLINE stmt;
@@ -19,7 +19,7 @@ comparison -> VALUE COMPARISON_OP VALUE | NAME COMPARISON_OP VALUE and_or compar
 comparison -> VALUE test_not IN VALUE | NOT OPEN_BRACE comparison CLOSE_BRACE | OPEN_BRACE comparison CLOSE_BRACE;
 test_not -> e | NOT;
 return_stmt -> RETURN return_thing;
-return_thing -> NAME | expr | comparison;
+return_thing -> VALUE | expr | comparison;
 import_stmt -> from_name IMPORT NAME | from_name IMPORT NAME NEWLINE import_stmt;
 from_name -> e | FROM NAME | FROM NAME from_name;
 for_stmt -> FOR for_head for_body;
@@ -29,7 +29,7 @@ loop_name -> NAME | NAME COMMA loop_name;
 while_stmt -> WHILE while_head while_body;
 while_head -> expr COLON | OPEN_BRACE expr CLOSE_BRACE COLON;
 while_body -> NEWLINE stmt;
-VALUE -> TRUE | FALSE | NONE | loop_name | operation | call_func | OPEN_BRACE VALUE CLOSE_BRACE | NAME OPEN_BRACE NAME CLOSE_BRACE;
+VALUE -> TRUE | FALSE | NONE | loop_name | operation | call_func | OPEN_BRACE VALUE CLOSE_BRACE | NAME OPEN_BRAC VALUE CLOSE_BRAC | VALUE DOT NAME;
 call_func -> NAME OPEN_BRACE VALUE CLOSE_BRACE | NAME OPEN_BRACE CLOSE_BRACE;
 loop_value -> VALUE | VALUE COMMA loop_name;
 ARRAY -> VALUE | OPEN_BRAC loop_value CLOSE_BRAC;
@@ -54,8 +54,11 @@ NUMBER -> NAME;
 IF -> if;
 ELIF -> elif;
 ELSE -> else;
+OPEN_BRAC -> [;
+CLOSE_BRAC -> ];
 OPEN_BRACE -> (;
 CLOSE_BRACE -> );
 COMMA -> ,;
 TRUE -> True | true;
-FALSE -> False | false
+FALSE -> False | false;
+DOT -> .
