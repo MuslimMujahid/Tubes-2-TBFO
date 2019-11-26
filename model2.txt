@@ -20,7 +20,7 @@ comparison -> VALUE test_not IN VALUE | NOT OPEN_BRACE comparison CLOSE_BRACE | 
 test_not -> e | NOT;
 return_stmt -> RETURN return_thing;
 return_thing -> NAME | expr | comparison;
-import_stmt -> from_name IMPORT NAME;
+import_stmt -> from_name IMPORT NAME | from_name IMPORT NAME NEWLINE import_stmt;
 from_name -> e | FROM NAME | FROM NAME from_name;
 for_stmt -> FOR for_head for_body;
 for_head -> NAME IN RANGE OPEN_BRACE VALUE CLOSE_BRACE COLON | loop_name IN ARRAY COLON;
@@ -29,7 +29,7 @@ loop_name -> NAME | NAME COMMA loop_name;
 while_stmt -> WHILE while_head while_body;
 while_head -> expr COLON | OPEN_BRACE expr CLOSE_BRACE COLON;
 while_body -> NEWLINE stmt;
-VALUE -> TRUE | FALSE | NONE | loop_name | operation | call_func | OPEN_BRACE VALUE CLOSE_BRACE;
+VALUE -> TRUE | FALSE | NONE | loop_name | operation | call_func | OPEN_BRACE VALUE CLOSE_BRACE | NAME OPEN_BRACE NAME CLOSE_BRACE;
 call_func -> NAME OPEN_BRACE VALUE CLOSE_BRACE | NAME OPEN_BRACE CLOSE_BRACE;
 loop_value -> VALUE | VALUE COMMA loop_name;
 ARRAY -> VALUE | OPEN_BRAC loop_value CLOSE_BRAC;
