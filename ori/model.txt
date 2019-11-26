@@ -1,0 +1,41 @@
+Terminals:
+UNKNOWN ENDL import from return : if + - * / < > <= >= == and or = elif else ( )
+Variables:
+START IMPORT FROM NAME NEWLINE expr_in_brace if_body OPEN_BRACE CLOSE_BRACE elif_stmt if_head ELIF ELSE else_stmt return_thing compared_with import_stmt and_or from_name stmt if_stmt COLON return_stmt IF RETURN if_expr expr operation OP COMPARISON_OP ASSIGN AND OR comparison RETURN NUMBER assignment
+Productions:
+START -> import_stmt | stmt;
+stmt -> if_stmt | if_stmt NEWLINE stmt | assignment | assignment NEWLINE stmt | for_stmt | for_stmt NEWLINE stmt;
+if_stmt -> IF if_head if_body | IF if_head if_body elif_stmt | IF if_head if_body else_stmt | IF if_head if_body elif_stmt else_stmt;
+if_head -> expr COLON;
+if_body -> NEWLINE stmt;
+elif_stmt -> NEWLINE ELIF if_head if_body | NEWLINE ELIF if_head if_body elif_stmt;
+else_stmt -> NEWLINE ELSE COLON if_body;
+expr -> NAME | comparison | NAME and_or expr | comparison and_or expr | expr_in_brace;
+expr_in_brace -> OPEN_BRACE expr CLOSE_BRACE | OPEN_BRACE expr_in_brace CLOSE_BRACE;
+and_or -> AND | OR;
+operation -> OP NAME | OP NAME op_expr;
+assignment -> NAME ASSIGN expr;
+comparison -> NAME COMPARISON_OP compared_with | NAME COMPARISON_OP compared_with and_or comparison;
+compared_with -> NAME | expr;
+return_stmt -> RETURN return_thing;
+return_thing -> NAME | expr | comparison;
+import_stmt -> from_name IMPORT NAME;
+from_name -> e | FROM NAME | FROM NAME from_name;
+for_stmt -> FOR for_head for_body
+AND -> and;
+OR -> or;
+IMPORT -> import;
+FROM -> from;
+NAME -> UNKNOWN;
+NEWLINE -> ENDL;
+COLON -> :;
+RETURN -> return;
+OP -> + | - | * | / ;
+COMPARISON_OP -> < | > | <= | >= | ==;
+ASSIGN -> =;
+NUMBER -> NAME;
+IF -> if;
+ELIF -> elif;
+ELSE -> else;
+OPEN_BRACE -> (;
+CLOSE_BRACE -> );

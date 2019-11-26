@@ -14,41 +14,29 @@ varContainer += ['A12', 'B12', 'C12', 'D12', 'E12', 'F12', 'G12', 'H12', 'I12', 
 
 def readSyntax(Terminals, languages):
     syntax = languages
-    syntax.replace("\t", " ") 
-    syntax.replace("\n", " NEWLINE ")
+    syntax = syntax.replace("\t", "") 
+    syntax = syntax.replace("\n", " ENDL ")
     syntax = syntax.split(" ")
+    for x in range (syntax.count('')):
+        syntax.remove('')
     for i in range(len(syntax)):
         if syntax[i] not in Terminals and len(syntax[i]) > 0:
             syntax[i] = "NAME"
     return syntax
 
 
-Terminals, V, Productions = CFG.loadModel("newgrammar.txt")
+Terminals, V, Productions = CFG.loadModel("model.txt")
 varContainer = CFG.getNotUsedVariables(V, varContainer)
 
-print("before:")
-CFG.writeResult(Productions)
 Productions, V, varContainer = CFG2CNF.START(Productions, V, varContainer)
-print("start")
-CFG.writeResult(Productions)
 Productions, V, varContainer = CFG2CNF.REMOVE_NULL_PRODUCTIONS(Productions, V, varContainer)
-print("remove null")
-CFG.writeResult(Productions)
 Productions, V, varContainer = CFG2CNF.REMOVE_UNIT_PRODUCTIONS(Productions, V, varContainer)
-print("remove unit")
-CFG.writeResult(Productions)
 Productions, V, varContainer = CFG2CNF.REMOVE_MORE_THAN_2_VARIABLES_PRODUCTION(Productions, V, varContainer)
-print("remove more than 2")
-CFG.writeResult(Productions)
 Productions, V, varContainer = CFG2CNF.REMOVE_TERM_PRODUCTION(Productions, V, varContainer) 
-print("remove term")
-CFG.writeResult(Productions)
 
-# CFG.writeResult(Productions)
-languages = "import what"
+languages = open("syntax.txt").read()
 languages = readSyntax(Terminals, languages)
-CFG.writeResult(Productions)
+for x in Productions:
+    print(x)
 print(languages)
-CYK.CYK(Productions, "S0", languages)
-# print(readSyntax(Terminals, languages))
-# CFG.writeResult(Productions)
+CYK.CYK(Productions, 'S0', languages)

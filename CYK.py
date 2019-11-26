@@ -26,7 +26,10 @@ def CYK(Grammar, Start, Languages):
                     for b in kamus[k+1, j]:
                         for d in Grammar:
                             left, right = d
-                            if ([a,b] in right) and left not in kamus[i, j]:
+                            form = ""
+                            for x in range(len(right)):
+                                form += right[x]
+                            if (a+b in form) and left not in kamus[i, j]:
                                 kamus[i, j].append(left)
 
     if Start in kamus[0, len(Languages)-1]:

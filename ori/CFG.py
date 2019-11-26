@@ -3,7 +3,6 @@ def loadModel(modelPath):
     K = file.split("Variables:\n")[0].replace("Terminals:\n", "").replace("\n", "")
     V = file.split("Variables:\n")[1].split("Productions:\n")[0].replace("Variables", "").replace("\n", "")
     P = file.split("Productions:\n")[1]
-    # cleanProduction(P)
     return cleanAlphabet(K), cleanAlphabet(V), cleanProduction(P)
 
 def writeResult(productions):
@@ -28,7 +27,10 @@ def cleanProduction(expression):
             rights = '\n'
         rights = rights.split(' | ')
         for right in rights:
-            result.append((left, right.split(' ')))
+            newRight = right.split(' ')
+            for x in range(newRight.count('')):
+                newRight.remove('')
+            result.append((left, newRight))
 
     return result
 
