@@ -1,5 +1,7 @@
 # CYK (Cocke-Younger-Kasami) Parser Algorithm Kelompok Cuankie
 
+import CFG2CNF
+
 # Membuat Fungsi CYK
 def CYK(Grammar, Start, Languages):
     kamus = {}
@@ -26,7 +28,7 @@ def CYK(Grammar, Start, Languages):
                     for b in kamus[k+1, j]:
                         for d in Grammar:
                             left, right = d
-                            if ([a,b] in right) and left not in kamus[i, j]:
+                            if ([a,b] == right) and left not in kamus[i, j]:
                                 kamus[i, j].append(left)
 
     if Start in kamus[0, len(Languages)-1]:
