@@ -1,10 +1,12 @@
-# -*- coding: utf-8 -*-
-#IT's assumed that starting variable is the first typed
 import sys, helper
 
+# indeks left dan right sebagai 0 dan 1
 left, right = 0, 1
 
+# List kosong untuk membuat format baru terminal variable dan production
 K, V, Productions = [],[],[]
+
+# Variable baru untuk memanipulasi variable yang ter-input pada grammar
 variablesJar = ['A3', 'B3', 'C3', 'D3', 'E3', 'F3', 'G3', 'H3', 'I3', 'J3', 'K3', 'L3', 'M3', 'N3', 'O3', 'P3', 'Q3', 'R3', 'S3', 'T3', 'U3', 'V3', 'W3', 'X3', 'Y3', 'Z3', 'A4', 'B4', 'C4', 'D4', 'E4', 'F4', 'G4', 'H4', 'I4', 'J4', 'K4', 'L4', 'M4', 'N4', 'O4', 'P4', 'Q4', 'R4', 'S4', 'T4', 'U4', 'V4', 'W4', 'X4', 'Y4', 'Z4']
 variablesJar += ['A5', 'B5', 'C5', 'D5', 'E5', 'F5', 'G5', 'H5', 'I5', 'J5', 'K5', 'L5', 'M5', 'N5', 'O5', 'P5', 'Q5', 'R5', 'S5', 'T5', 'U5', 'V5', 'W5', 'X5', 'Y5', 'Z5']
 variablesJar += ['A6', 'B6', 'C6', 'D6', 'E6', 'F6', 'G6', 'H6', 'I6', 'J6', 'K6', 'L6', 'M6', 'N6', 'O6', 'P6', 'Q6', 'R6', 'S6', 'T6', 'U6', 'V6', 'W6', 'X6', 'Y6', 'Z6']
@@ -16,58 +18,61 @@ variablesJar += ['A11', 'B11', 'C11', 'D11', 'E11', 'F11', 'G11', 'H11', 'I11', 
 variablesJar += ['A12', 'B12', 'C12', 'D12', 'E12', 'F12', 'G12', 'H12', 'I12', 'J12', 'K12', 'L12', 'M12', 'N12', 'O12', 'P12', 'Q12', 'R12', 'S12', 'T12', 'U12', 'V12', 'W12', 'X12', 'Y12', 'Z12']
 
 def isUnitary(rule, variables):
+	# Sebelah kanan memiliki satu variabel
 	if rule[left] in variables and rule[right][0] in variables and len(rule[right]) == 1:
 		return True
 	return False
 
 def isSimple(rule):
+	# Variable menghasilkan satu terminal
 	if rule[left] in V and rule[right][0] in K and len(rule[right]) == 1:
 		return True
 	return False
 
-
+# Mengubah nonterminal menjadi variable yang ada yang sudah di definisikan (handle variable)
 for nonTerminal in V:
 	if nonTerminal in variablesJar:
 		variablesJar.remove(nonTerminal)
 
-#Add S0->S rule––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––START
+# Ngubah rule start menjadi start baru (langkah menuju remove unnit production) S0 -> S
 def START(productions, variables):
 	variables.append('S0')
 	return [('S0', [variables[0]])] + productions
-#Remove rules containing both terms and variables, like A->Bc, replacing by A->BZ and Z->c–––––––––––TERM
-def TERM(productions, variables):
+
+# menghapus rules yang memiliki term dan variable, mengubah A-Bc menjadi A->BZ dann Z->c
+def removeTERM(productions, variables):
 	newProductions = []
-	#create a dictionari for all base production, like A->a, in the form dic['a'] = 'A'
+	# Membuat dictionary atau object untuk semua produksi, ex: A->a menjadi format dictionary python ["a"]="A"
 	dictionary = helper.setupDict(productions, variables, terms=K)
 	for production in productions:
-		#check if the production is simple
+		# term harus di cek apakah rules production simple
 		if isSimple(production):
-			#in that case there is nothing to change
+			# Produksi baru tidak akan di rubah bila CFG simple
 			newProductions.append(production)
 		else:
 			for term in K:
 				for index, value in enumerate(production[right]):
 					if term == value and not term in dictionary:
-						#it's created a new production vaiable->term and added to it 
+						# produksi baru dengan bentuk variable->term dan menambahkannya (append)
 						dictionary[term] = variablesJar.pop()
-						#Variables set it's updated adding new variable
+						# Set variable akan di update dengan menambah variable baru
 						V.append(dictionary[term])
 						newProductions.append( (dictionary[term], [term]) )
-						
+				
 						production[right][index] = dictionary[term]
 					elif term == value:
 						production[right][index] = dictionary[term]
 			newProductions.append( (production[left], production[right]) )
 			
-	#merge created set and the introduced rules
+	# mengubah set yang lama dan menjadikannya rules
 	return newProductions
 
-#Eliminate non unitry rules––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––BIN
-def BIN(productions, variables):
+# Kode untuk eliminasi rules yang bukan non unitary
+def nonunitaryremoval(productions, variables):
 	result = []
 	for production in productions:
 		k = len(production[right])
-		#newVar = production[left]
+		# temporary variable adalah production left-side
 		if k <= 2:
 			result.append( production )
 		else:
@@ -84,36 +89,29 @@ def BIN(productions, variables):
 	return result
 	
 
-#Delete non terminal rules–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––DEL
-def DEL(productions):
+# menghapus non-terminal rules seperti epsilon, membuat rules baru
+def DELmakeNewRules(productions):
 	newSet = []
-	#seekAndDestroy throw back in:
-	#        – outlaws all left side of productions such that right side is equal to the outlaw
-	#        – productions the productions without outlaws 
+	# menghapus leftside production sehingga hanya tersisa rightside untuk di manipulasi
 	outlaws, productions = helper.seekAndDestroy(target='e', productions=productions)
-	#add new reformulation of old rules
+	# membuat rules baru
 	for outlaw in outlaws:
-		#consider every production: old + new resulting important when more than one outlaws are in the same prod.
 		for production in productions + [e for e in newSet if e not in productions]:
-			#if outlaw is present in the right side of a rule
 			if outlaw in production[right]:
-				#the rule is rewrited in all combination of it, rewriting "e" rather than outlaw
-				#this cycle prevent to insert duplicate rules
 				newSet = newSet + [e for e in  helper.rewrite(outlaw, production) if e not in newSet]
 
-	#add unchanged rules and return
+	# menambahkan rules yang tidak di ubah sebelumnya 
 	return newSet + ([productions[i] for i in range(len(productions)) 
 							if productions[i] not in newSet])
 
-def unit_routine(rules, variables):
+# remove unit terminal
+def unit_production(rules, variables):
 	unitaries, result = [], []
-	#controllo se una regola è unaria
 	for aRule in rules:
 		if isUnitary(aRule, variables):
 			unitaries.append( (aRule[left], aRule[right][0]) )
 		else:
 			result.append(aRule)
-	#altrimenti controllo se posso sostituirla in tutte le altre
 	for uni in unitaries:
 		for rule in rules:
 			if uni[right]==rule[left] and uni[left]!=rule[left]:
@@ -121,27 +119,24 @@ def unit_routine(rules, variables):
 	
 	return result
 
-def UNIT(productions, variables):
+# remove unit production, bila satu variable menghasilkan satu variable
+def UNITremoval(productions, variables):
 	i = 0
-	result = unit_routine(productions, variables)
-	tmp = unit_routine(result, variables)
+	result = unit_production(productions, variables)
+	tmp = unit_production(result, variables)
 	while result != tmp and i < 1000:
-		result = unit_routine(tmp, variables)
-		tmp = unit_routine(result, variables)
+		result = unit_production(tmp, variables)
+		tmp = unit_production(result, variables)
 		i+=1
 	return result
 
+# Hasil akhir production setelah CFG di ubah menjadi CNF
 def CFG2CNF(modelPath):
 	K, V, Productions = helper.loadModel(modelPath)
 	Productions = START(Productions, V)
-	Productions = TERM(Productions, V)
-	Productions = BIN(Productions, V)
-	Productions = DEL(Productions)
-	Productions = UNIT(Productions, V)
+	Productions = removeTERM(Productions, V)
+	Productions = nonunitaryremoval(Productions, V)
+	Productions = DELmakeNewRules(Productions)
+	Productions = UNITremoval(Productions, V)
 	return K, Productions
 
-# if __name__ == '__main__':
-# 	if len(sys.argv) > 1:
-# 		modelPath = str(sys.argv[1])
-# 	else:
-# 		modelPath = 'model4.txt'
