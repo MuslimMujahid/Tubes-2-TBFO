@@ -1,5 +1,6 @@
 import CFG2CNF
 import CYK 
+
 def readSyntax(Terminals, languages):
     syntax = languages
     syntax = syntax.replace("\t", "") 
@@ -13,9 +14,33 @@ def readSyntax(Terminals, languages):
             syntax[i] = "UNKNOWN"
     return syntax
 
-
 Terminals, CNF = CFG2CNF.CFG2CNF("model2.txt")
-languages = open("syntax.txt").read()
+languages = open("tc2.txt").read()
+
+tokens = [':', '.', '+', '-', '*', '/', '<', '>', '<=', '>=', '==', '(', ')', '[', ']', ',', "'"]
+languages = open("syntax.txt").read() + '\nqwertyuiop'
+
+for token in tokens:
+    read = len(token)
+    for i in range(len(languages)-read):
+        CC = languages[i:i+read]
+        if CC == token:
+            if not (languages[i-1] == " "):
+                print("Tidak ada spasi di awal")
+                print("before")
+                print (languages[:i])
+                print("after")
+                print(languages[i:])
+                languages = languages[:i] + " " + languages[i:]
+            elif not (languages[i+read+1] == " "):
+                print("Tidak ada spasi setelah")
+                print("before")
+                print (languages[:i+read])
+                print("after")
+                print(languages[i+read:])
+                languages = languages[:i+read] + " " + languages[i+read:]
+languages = languages[:len(languages)-11]
+
 languages = readSyntax(Terminals, languages)
 
 if ( CYK.CYK(CNF, 'S0', languages) ):
