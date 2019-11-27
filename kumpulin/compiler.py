@@ -26,7 +26,7 @@ def readSyntax(Terminals, languages):
     # print(syntax)
     return syntax
 
-Terminals, CNF = CFG2CNF.CFG2CNF("model2.txt")
+Terminals, CNF = CFG2CNF.CFG2CNF("model.txt")
 languages = open(sys.argv[1]).read()
 
 # print(languages)
