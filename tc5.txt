@@ -1,0 +1,16 @@
+imports random
+import sys
+
+file = open("file.txt", "w")
+file = file.split(" ")
+for data in file:
+    i = 1
+    for d in data:
+        print(data, i, end=" ")
+        e = d.split()
+        if e[0] == "S":
+           msg = "compile success"
+
+if data in file:-
+    msg = "compile error"
+           
