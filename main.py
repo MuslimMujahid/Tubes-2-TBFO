@@ -1,6 +1,9 @@
 import CFG2CNF
 import CYK 
 
+tokens = [':', '.', '+', '-', '*', '/', '<', '>', '<=', '>=', '==', '(', ')', '[', ']', ',', "' '", "'"]
+languages = open("syntax.txt").read() + '\nqwertyuiop'
+
 def readSyntax(Terminals, languages):
     syntax = languages
     syntax = syntax.replace("\t", "") 
@@ -9,6 +12,7 @@ def readSyntax(Terminals, languages):
     syntax = syntax.split(" ")
     for x in range (syntax.count('')):
         syntax.remove('')
+    
     for i in range(len(syntax)):
         if syntax[i] not in Terminals and len(syntax[i]) > 0:
             syntax[i] = "UNKNOWN"
@@ -16,9 +20,6 @@ def readSyntax(Terminals, languages):
 
 Terminals, CNF = CFG2CNF.CFG2CNF("model2.txt")
 languages = open("tc2.txt").read()
-
-tokens = [':', '.', '+', '-', '*', '/', '<', '>', '<=', '>=', '==', '(', ')', '[', ']', ',', "'"]
-languages = open("syntax.txt").read() + '\nqwertyuiop'
 
 for token in tokens:
     read = len(token)
@@ -29,7 +30,7 @@ for token in tokens:
                 languages = languages[:i] + " " + languages[i:]
             elif not (languages[i+read+1] == " "):
                 languages = languages[:i+read] + " " + languages[i+read:]
-
+                
 languages = languages[:len(languages)-11]
 
 languages = readSyntax(Terminals, languages)
