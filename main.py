@@ -26,7 +26,6 @@ for token in tokens:
         CC = languages[i:i+read]
         if CC == token:
             if not (languages[i-1] == " "):
-                print(languages[i:])
                 languages = languages[:i] + " " + languages[i:]
             elif not (languages[i+read+1] == " "):
                 languages = languages[:i+read] + " " + languages[i+read:]
