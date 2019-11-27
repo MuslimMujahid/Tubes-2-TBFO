@@ -1,46 +1,614 @@
-Terminals:
-NAME import from
-Variables:
-START stmt import_stmt from_name FROM IMPORT FROM
-Productions:
-START -> e | stmt | stmt START;
-stmt -> import_stmt | import_stmt stmt | stmt;
-import_stmt -> IMPORT NAME from_name;
-from_name -> e | FROM NAME | FROM NAME from_name;
-IMPORT -> import;
+X31 -> test_not X32
+import_stmt -> from_name A41
+import_stmt -> from_name B41
+C41 -> NAME from_name
+stmt -> if_stmt A31
+A31 -> NEWLINE stmt
+stmt -> assignment B31
+B31 -> NEWLINE stmt
+stmt -> for_stmt C31
+C31 -> NEWLINE stmt
+stmt -> call_func D31
+D31 -> NEWLINE stmt
+stmt -> NEWLINE stmt
+stmt -> while_stmt E31
+E31 -> NEWLINE stmt
+stmt -> with_stmt F31
+F31 -> NEWLINE stmt
+if_stmt -> IF G31
+G31 -> if_head if_body
+if_stmt -> IF H31
+H31 -> if_head H32
+H32 -> if_body elif_stmt
+if_stmt -> IF I31
+I31 -> if_head I32
+I32 -> if_body else_stmt
+if_stmt -> IF J31
+J31 -> if_head J32
+J32 -> if_body J33
+J33 -> elif_stmt else_stmt
+if_head -> expr COLON
+if_head -> OPEN_BRACE K31
+K31 -> expr CLOSE_BRACE
+if_body -> NEWLINE stmt
+elif_stmt -> NEWLINE L31
+L31 -> ELIF L32
+L32 -> if_head if_body
+elif_stmt -> NEWLINE M31
+M31 -> ELIF M32
+M32 -> if_head M33
+M33 -> if_body elif_stmt
+else_stmt -> NEWLINE N31
+N31 -> ELSE N32
+N32 -> COLON if_body
+expr -> VALUE O31
+O31 -> and_or expr
+expr -> comparison P31
+P31 -> and_or expr
+expr -> OPEN_BRACE Q31
+Q31 -> expr CLOSE_BRACE
+operation -> NAME R31
+R31 -> OP NAME
+operation -> NAME S31
+S31 -> OP operation
+assignment -> NAME T31
+T31 -> ASSIGN expr
+assignment -> NAME U31
+U31 -> ASSIGN VALUE
+comparison -> VALUE V31
+V31 -> COMPARISON_OP VALUE
+comparison -> NAME W31
+W31 -> COMPARISON_OP W32
+W32 -> VALUE W33
+W33 -> and_or comparison
+comparison -> VALUE X31
+X32 -> IN VALUE
+comparison -> NOT Y31
+Y31 -> OPEN_BRACE Y32
+Y32 -> comparison CLOSE_BRACE
+comparison -> OPEN_BRACE Z31
+Z31 -> comparison CLOSE_BRACE
+return_stmt -> RETURN return_thing
+A41 -> IMPORT NAME
+B41 -> IMPORT B42
+B42 -> NAME B43
+B43 -> NEWLINE import_stmt
+from_name -> FROM NAME
+from_name -> FROM C41
+for_stmt -> FOR D41
+D41 -> for_head for_body
+for_head -> NAME E41
+E41 -> IN E42
+E42 -> RANGE E43
+E43 -> OPEN_BRACE E44
+E44 -> loop_name E45
+E45 -> CLOSE_BRACE COLON
+for_head -> VALUE F41
+F41 -> IN F42
+F42 -> VALUE COLON
+for_body -> NEWLINE stmt
+loop_name -> NAME G41
+G41 -> COMMA loop_name
+while_stmt -> WHILE H41
+H41 -> while_head while_body
+while_head -> expr COLON
+while_head -> OPEN_BRACE I41
+I41 -> expr I42
+I42 -> CLOSE_BRACE COLON
+while_body -> NEWLINE stmt
+VALUE -> OPEN_BRACE J41
+J41 -> VALUE CLOSE_BRACE
+VALUE -> NAME K41
+K41 -> OPEN_BRAC K42
+K42 -> VALUE CLOSE_BRAC
+call_func -> NAME L41
+L41 -> OPEN_BRACE L42
+L42 -> VALUE CLOSE_BRACE
+call_func -> NAME M41
+M41 -> OPEN_BRACE CLOSE_BRACE
+call_func -> VALUE N41
+N41 -> DOT call_func
+loop_value -> VALUE O41
+O41 -> COMMA loop_name
+def_stmt -> DEF P41
+P41 -> NAME P42
+P42 -> OPEN_BRACE P43
+P43 -> loop_name P44
+P44 -> CLOSE_BRACE P45
+P45 -> COLON def_body
+def_stmt -> DEF Q41
+Q41 -> NAME Q42
+Q42 -> OPEN_BRACE Q43
+Q43 -> CLOSE_BRACE Q44
+Q44 -> COLON def_body
+def_body -> NEWLINE stmt
+with_stmt -> WITH R41
+R41 -> with_head with_body
+with_head -> VALUE S41
+S41 -> AS S42
+S42 -> VALUE COLON
+with_body -> NEWLINE stmt
+ARRAY -> OPEN_BRAC T41
+T41 -> loop_value CLOSE_BRAC
+ARRAY -> OPEN_BRAC CLOSE_BRAC
+ARRAY -> OPEN_CURL U41
+U41 -> loop_value CLOSE_CURL
+ARRAY -> OPEN_CURL CLOSE_CURL
+WITH -> with
+AS -> as
+DEF -> def
+NONE -> None
+WHILE -> while
+NOT -> not
+IN -> in
+RANGE -> range
+FOR -> for
+AND -> and
+OR -> or
+IMPORT -> import
 FROM -> from
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-FOR -> for;
-VAR -> variable;
-IN -> in;
-RANGE -> range;
-OPENBRACKET -> (;
-NUMBER -> number;
-KOMA -> ,;
-CLOSEBRACKET -> );
-
-for_stmnt -> FOR VAR IN RANGE OPEENBRACKET NUMBER KOMA CLOSEBRACKET SEMICOLON;
+NAME -> UNKNOWN
+NEWLINE -> ENDL
+COLON -> :
+RETURN -> return
+OP -> +
+OP -> -
+OP -> *
+OP -> / 
+COMPARISON_OP -> <
+COMPARISON_OP -> >
+COMPARISON_OP -> <=
+COMPARISON_OP -> >=
+COMPARISON_OP -> ==
+ASSIGN -> =
+IF -> if
+ELIF -> elif
+ELSE -> else
+OPEN_BRAC -> [
+CLOSE_BRAC -> ]
+OPEN_BRACE -> (
+CLOSE_BRACE -> )
+COMMA -> ,
+TRUE -> True
+TRUE -> true
+FALSE -> False
+FALSE -> false
+DOT -> .
+NAME -> QUOTE V41
+V41 -> NAME QUOTE
+NAME -> DOUBLE_QUOTE W41
+W41 -> NAME DOUBLE_QUOTE
+NAME -> NAME X41
+X41 -> DOT NAME
+NAME -> DOUBLE_QUOTE DOUBLE_QUOTE
+NAME -> QUOTE QUOTE
+NAME -> NAME NAME
+CONTINUE -> continue
+BREAK -> break
+PASS -> pass
+QUOTE -> '
+DOUBLE_QUOTE -> "
+OPEN_CURL -> {
+CLOSE_CURL -> }
+X31 -> IN VALUE
+import_stmt -> IMPORT NAME
+import_stmt -> IMPORT B42
+C41 -> UNKNOWN
+C41 -> QUOTE V41
+C41 -> DOUBLE_QUOTE W41
+C41 -> NAME X41
+C41 -> DOUBLE_QUOTE DOUBLE_QUOTE
+C41 -> QUOTE QUOTE
+C41 -> NAME NAME
+START -> if_stmt A31
+START -> assignment B31
+START -> for_stmt C31
+START -> call_func D31
+START -> NEWLINE stmt
+START -> while_stmt E31
+START -> with_stmt F31
+stmt -> from_name A41
+stmt -> from_name B41
+stmt -> IF G31
+stmt -> IF H31
+stmt -> IF I31
+stmt -> IF J31
+stmt -> NAME T31
+stmt -> NAME U31
+stmt -> FOR D41
+stmt -> NAME L41
+stmt -> NAME M41
+stmt -> VALUE N41
+stmt -> WHILE H41
+stmt -> WITH R41
+stmt -> RETURN return_thing
+stmt -> DEF P41
+stmt -> DEF Q41
+expr -> OPEN_BRACE J41
+expr -> NAME K41
+expr -> VALUE V31
+expr -> NAME W31
+expr -> VALUE X31
+expr -> NOT Y31
+expr -> OPEN_BRACE Z31
+and_or -> and
+and_or -> or
+test_not -> not
+return_stmt -> continue
+return_stmt -> break
+return_stmt -> pass
+return_thing -> OPEN_BRACE J41
+return_thing -> NAME K41
+return_thing -> VALUE O31
+return_thing -> comparison P31
+return_thing -> OPEN_BRACE Q31
+return_thing -> VALUE V31
+return_thing -> NAME W31
+return_thing -> VALUE X31
+return_thing -> NOT Y31
+return_thing -> OPEN_BRACE Z31
+loop_name -> UNKNOWN
+loop_name -> QUOTE V41
+loop_name -> DOUBLE_QUOTE W41
+loop_name -> NAME X41
+loop_name -> DOUBLE_QUOTE DOUBLE_QUOTE
+loop_name -> QUOTE QUOTE
+loop_name -> NAME NAME
+VALUE -> True
+VALUE -> true
+VALUE -> False
+VALUE -> false
+VALUE -> None
+VALUE -> NAME G41
+VALUE -> NAME R31
+VALUE -> NAME S31
+VALUE -> NAME L41
+VALUE -> NAME M41
+VALUE -> VALUE N41
+VALUE -> OPEN_BRAC T41
+VALUE -> OPEN_BRAC CLOSE_BRAC
+VALUE -> OPEN_CURL U41
+VALUE -> OPEN_CURL CLOSE_CURL
+loop_value -> OPEN_BRACE J41
+loop_value -> NAME K41
+ARRAY -> OPEN_BRACE J41
+ARRAY -> NAME K41
+NUMBER -> UNKNOWN
+NUMBER -> QUOTE V41
+NUMBER -> DOUBLE_QUOTE W41
+NUMBER -> NAME X41
+NUMBER -> DOUBLE_QUOTE DOUBLE_QUOTE
+NUMBER -> QUOTE QUOTE
+NUMBER -> NAME NAME
+S0 -> if_stmt A31
+S0 -> assignment B31
+S0 -> for_stmt C31
+S0 -> call_func D31
+S0 -> NEWLINE stmt
+S0 -> while_stmt E31
+S0 -> with_stmt F31
+S0 -> from_name A41
+S0 -> from_name B41
+S0 -> IF G31
+S0 -> IF H31
+S0 -> IF I31
+S0 -> IF J31
+S0 -> NAME T31
+S0 -> NAME U31
+S0 -> FOR D41
+S0 -> NAME L41
+S0 -> NAME M41
+S0 -> VALUE N41
+S0 -> WHILE H41
+S0 -> WITH R41
+S0 -> RETURN return_thing
+S0 -> DEF P41
+S0 -> DEF Q41
+START -> from_name A41
+START -> from_name B41
+START -> IMPORT NAME
+START -> IMPORT B42
+START -> IF G31
+START -> IF H31
+START -> IF I31
+START -> IF J31
+START -> NAME T31
+START -> NAME U31
+START -> FOR D41
+START -> NAME L41
+START -> NAME M41
+START -> VALUE N41
+START -> WHILE H41
+START -> WITH R41
+START -> RETURN return_thing
+START -> continue
+START -> break
+START -> pass
+START -> DEF P41
+START -> DEF Q41
+stmt -> IMPORT NAME
+stmt -> IMPORT B42
+stmt -> continue
+stmt -> break
+stmt -> pass
+expr -> True
+expr -> true
+expr -> False
+expr -> false
+expr -> None
+expr -> NAME G41
+expr -> UNKNOWN
+expr -> QUOTE V41
+expr -> DOUBLE_QUOTE W41
+expr -> NAME X41
+expr -> DOUBLE_QUOTE DOUBLE_QUOTE
+expr -> QUOTE QUOTE
+expr -> NAME NAME
+expr -> NAME R31
+expr -> NAME S31
+expr -> NAME L41
+expr -> NAME M41
+expr -> VALUE N41
+expr -> OPEN_BRAC T41
+expr -> OPEN_BRAC CLOSE_BRAC
+expr -> OPEN_CURL U41
+expr -> OPEN_CURL CLOSE_CURL
+expr -> OPEN_BRACE J41
+expr -> NAME K41
+return_thing -> True
+return_thing -> true
+return_thing -> False
+return_thing -> false
+return_thing -> None
+return_thing -> NAME G41
+return_thing -> UNKNOWN
+return_thing -> QUOTE V41
+return_thing -> DOUBLE_QUOTE W41
+return_thing -> NAME X41
+return_thing -> DOUBLE_QUOTE DOUBLE_QUOTE
+return_thing -> QUOTE QUOTE
+return_thing -> NAME NAME
+return_thing -> NAME R31
+return_thing -> NAME S31
+return_thing -> NAME L41
+return_thing -> NAME M41
+return_thing -> VALUE N41
+return_thing -> OPEN_BRAC T41
+return_thing -> OPEN_BRAC CLOSE_BRAC
+return_thing -> OPEN_CURL U41
+return_thing -> OPEN_CURL CLOSE_CURL
+return_thing -> OPEN_BRACE J41
+return_thing -> NAME K41
+return_thing -> OPEN_BRACE J41
+return_thing -> NAME K41
+return_thing -> True
+return_thing -> true
+return_thing -> False
+return_thing -> false
+return_thing -> None
+return_thing -> NAME G41
+return_thing -> NAME R31
+return_thing -> NAME S31
+return_thing -> NAME L41
+return_thing -> NAME M41
+return_thing -> VALUE N41
+return_thing -> OPEN_BRAC T41
+return_thing -> OPEN_BRAC CLOSE_BRAC
+return_thing -> OPEN_CURL U41
+return_thing -> OPEN_CURL CLOSE_CURL
+return_thing -> VALUE V31
+return_thing -> NAME W31
+return_thing -> VALUE X31
+return_thing -> NOT Y31
+return_thing -> OPEN_BRACE Z31
+VALUE -> UNKNOWN
+VALUE -> QUOTE V41
+VALUE -> DOUBLE_QUOTE W41
+VALUE -> NAME X41
+VALUE -> DOUBLE_QUOTE DOUBLE_QUOTE
+VALUE -> QUOTE QUOTE
+VALUE -> NAME NAME
+loop_value -> True
+loop_value -> true
+loop_value -> False
+loop_value -> false
+loop_value -> None
+loop_value -> NAME G41
+loop_value -> UNKNOWN
+loop_value -> QUOTE V41
+loop_value -> DOUBLE_QUOTE W41
+loop_value -> NAME X41
+loop_value -> DOUBLE_QUOTE DOUBLE_QUOTE
+loop_value -> QUOTE QUOTE
+loop_value -> NAME NAME
+loop_value -> NAME R31
+loop_value -> NAME S31
+loop_value -> NAME L41
+loop_value -> NAME M41
+loop_value -> VALUE N41
+loop_value -> OPEN_BRAC T41
+loop_value -> OPEN_BRAC CLOSE_BRAC
+loop_value -> OPEN_CURL U41
+loop_value -> OPEN_CURL CLOSE_CURL
+loop_value -> OPEN_BRACE J41
+loop_value -> NAME K41
+ARRAY -> True
+ARRAY -> true
+ARRAY -> False
+ARRAY -> false
+ARRAY -> None
+ARRAY -> NAME G41
+ARRAY -> UNKNOWN
+ARRAY -> QUOTE V41
+ARRAY -> DOUBLE_QUOTE W41
+ARRAY -> NAME X41
+ARRAY -> DOUBLE_QUOTE DOUBLE_QUOTE
+ARRAY -> QUOTE QUOTE
+ARRAY -> NAME NAME
+ARRAY -> NAME R31
+ARRAY -> NAME S31
+ARRAY -> NAME L41
+ARRAY -> NAME M41
+ARRAY -> VALUE N41
+S0 -> IMPORT NAME
+S0 -> IMPORT B42
+S0 -> continue
+S0 -> break
+S0 -> pass
+expr -> True
+expr -> true
+expr -> False
+expr -> false
+expr -> None
+expr -> NAME G41
+expr -> UNKNOWN
+expr -> QUOTE V41
+expr -> DOUBLE_QUOTE W41
+expr -> NAME X41
+expr -> DOUBLE_QUOTE DOUBLE_QUOTE
+expr -> QUOTE QUOTE
+expr -> NAME NAME
+expr -> NAME R31
+expr -> NAME S31
+expr -> NAME L41
+expr -> NAME M41
+expr -> VALUE N41
+expr -> OPEN_BRAC T41
+expr -> OPEN_BRAC CLOSE_BRAC
+expr -> OPEN_CURL U41
+expr -> OPEN_CURL CLOSE_CURL
+expr -> OPEN_BRACE J41
+expr -> NAME K41
+expr -> True
+expr -> true
+expr -> False
+expr -> false
+expr -> None
+expr -> NAME G41
+expr -> UNKNOWN
+expr -> QUOTE V41
+expr -> DOUBLE_QUOTE W41
+expr -> NAME X41
+expr -> DOUBLE_QUOTE DOUBLE_QUOTE
+expr -> QUOTE QUOTE
+expr -> NAME NAME
+expr -> NAME R31
+expr -> NAME S31
+expr -> NAME L41
+expr -> NAME M41
+expr -> VALUE N41
+return_thing -> True
+return_thing -> true
+return_thing -> False
+return_thing -> false
+return_thing -> None
+return_thing -> NAME G41
+return_thing -> UNKNOWN
+return_thing -> QUOTE V41
+return_thing -> DOUBLE_QUOTE W41
+return_thing -> NAME X41
+return_thing -> DOUBLE_QUOTE DOUBLE_QUOTE
+return_thing -> QUOTE QUOTE
+return_thing -> NAME NAME
+return_thing -> NAME R31
+return_thing -> NAME S31
+return_thing -> NAME L41
+return_thing -> NAME M41
+return_thing -> VALUE N41
+return_thing -> OPEN_BRAC T41
+return_thing -> OPEN_BRAC CLOSE_BRAC
+return_thing -> OPEN_CURL U41
+return_thing -> OPEN_CURL CLOSE_CURL
+return_thing -> OPEN_BRACE J41
+return_thing -> NAME K41
+return_thing -> True
+return_thing -> true
+return_thing -> False
+return_thing -> false
+return_thing -> None
+return_thing -> NAME G41
+return_thing -> UNKNOWN
+return_thing -> QUOTE V41
+return_thing -> DOUBLE_QUOTE W41
+return_thing -> NAME X41
+return_thing -> DOUBLE_QUOTE DOUBLE_QUOTE
+return_thing -> QUOTE QUOTE
+return_thing -> NAME NAME
+return_thing -> NAME R31
+return_thing -> NAME S31
+return_thing -> NAME L41
+return_thing -> NAME M41
+return_thing -> VALUE N41
+return_thing -> UNKNOWN
+return_thing -> QUOTE V41
+return_thing -> DOUBLE_QUOTE W41
+return_thing -> NAME X41
+return_thing -> DOUBLE_QUOTE DOUBLE_QUOTE
+return_thing -> QUOTE QUOTE
+return_thing -> NAME NAME
+return_thing -> OPEN_BRACE J41
+return_thing -> NAME K41
+return_thing -> True
+return_thing -> true
+return_thing -> False
+return_thing -> false
+return_thing -> None
+return_thing -> NAME G41
+return_thing -> NAME R31
+return_thing -> NAME S31
+return_thing -> NAME L41
+return_thing -> NAME M41
+return_thing -> VALUE N41
+return_thing -> OPEN_BRAC T41
+return_thing -> OPEN_BRAC CLOSE_BRAC
+return_thing -> OPEN_CURL U41
+return_thing -> OPEN_CURL CLOSE_CURL
+return_thing -> UNKNOWN
+return_thing -> QUOTE V41
+return_thing -> DOUBLE_QUOTE W41
+return_thing -> NAME X41
+return_thing -> DOUBLE_QUOTE DOUBLE_QUOTE
+return_thing -> QUOTE QUOTE
+return_thing -> NAME NAME
+loop_value -> True
+loop_value -> true
+loop_value -> False
+loop_value -> false
+loop_value -> None
+loop_value -> NAME G41
+loop_value -> UNKNOWN
+loop_value -> QUOTE V41
+loop_value -> DOUBLE_QUOTE W41
+loop_value -> NAME X41
+loop_value -> DOUBLE_QUOTE DOUBLE_QUOTE
+loop_value -> QUOTE QUOTE
+loop_value -> NAME NAME
+loop_value -> NAME R31
+loop_value -> NAME S31
+loop_value -> NAME L41
+loop_value -> NAME M41
+loop_value -> VALUE N41
+loop_value -> OPEN_BRAC T41
+loop_value -> OPEN_BRAC CLOSE_BRAC
+loop_value -> OPEN_CURL U41
+loop_value -> OPEN_CURL CLOSE_CURL
+loop_value -> OPEN_BRACE J41
+loop_value -> NAME K41
+loop_value -> True
+loop_value -> true
+loop_value -> False
+loop_value -> false
+loop_value -> None
+loop_value -> NAME G41
+loop_value -> UNKNOWN
+loop_value -> QUOTE V41
+loop_value -> DOUBLE_QUOTE W41
+loop_value -> NAME X41
+loop_value -> DOUBLE_QUOTE DOUBLE_QUOTE
+loop_value -> QUOTE QUOTE
+loop_value -> NAME NAME
+loop_value -> NAME R31
+loop_value -> NAME S31
+loop_value -> NAME L41
+loop_value -> NAME M41
+loop_value -> VALUE N41
